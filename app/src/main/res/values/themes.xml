@@ -1,0 +1,6 @@
+<resources>
+    <style name="Base.Theme.PhotoEditorApp" parent="Theme.Material3.DayNight.NoActionBar">
+    </style>
+
+    <style name="Theme.PhotoEditorApp" parent="Base.Theme.PhotoEditorApp" />
+</resources>
