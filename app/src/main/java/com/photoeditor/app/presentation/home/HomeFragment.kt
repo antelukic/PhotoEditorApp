@@ -13,16 +13,18 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.photoeditor.app.R
 import com.photoeditor.app.databinding.FragmentHomeBinding
 import com.photoeditor.app.ext.getBitmap
-import org.koin.androidx.viewmodel.ext.android.activityViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding by lazy { _binding!! }
 
-    private val viewModel by activityViewModel<HomeViewModel>()
+    private val viewModel by viewModel<HomeViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,8 +66,8 @@ class HomeFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 if (result.data?.data != null) {
                     result.data?.data?.let { imageUri ->
-                        Log.e(TAG, "resultGalleryLauncher: $imageUri")
                         result?.data?.data.publishImage()
+                        navigateToEditPhotoScreen()
                     }
                 } else {
                     Log.e(TAG, "resultGalleryLauncher: $result")
@@ -79,8 +81,8 @@ class HomeFragment : Fragment() {
             val resultCode = result.resultCode
             val data = result.data
             if (resultCode == Activity.RESULT_OK) {
-                Log.d(TAG, "data: $data")
                 data?.data.publishImage()
+                navigateToEditPhotoScreen()
             } else {
                 Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_LONG).show()
             }
@@ -90,6 +92,10 @@ class HomeFragment : Fragment() {
         this?.getBitmap(requireContext().contentResolver)?.let { bitmap ->
             viewModel.publishPickedImage(bitmap)
         }
+    }
+
+    private fun navigateToEditPhotoScreen() {
+        findNavController().navigate(R.id.action_homeFragment_to_editPhotoFragment)
     }
 
     override fun onDestroy() {
