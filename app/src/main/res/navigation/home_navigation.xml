@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_navigation"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/editPhotoFragment">
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.photoeditor.app.presentation.home.HomeFragment"
-        android:label="fragment_home"
-        tools:layout="@layout/fragment_home" />
+        android:id="@+id/editPhotoFragment"
+        android:name="com.photoeditor.app.presentation.editphoto.EditPhotoFragment"
+        android:label="fragment_edit_photo"
+        tools:layout="@layout/fragment_edit_photo" />
 </navigation>

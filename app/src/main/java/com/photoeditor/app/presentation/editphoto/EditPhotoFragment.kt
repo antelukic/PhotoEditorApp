@@ -1,4 +1,4 @@
-package com.photoeditor.app.presentation.home
+package com.photoeditor.app.presentation.editphoto
 
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -42,16 +42,16 @@ import com.mukesh.imageproccessing.filters.Temperature
 import com.mukesh.imageproccessing.filters.Tint
 import com.mukesh.imageproccessing.filters.Vignette
 import com.photoeditor.app.R
-import com.photoeditor.app.databinding.FragmentHomeBinding
+import com.photoeditor.app.databinding.FragmentEditPhotoBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.Date
 
-class HomeFragment : Fragment(), OnFilterClickListener, OnProcessingCompletionListener {
+class EditPhotoFragment : Fragment(), OnFilterClickListener, OnProcessingCompletionListener {
 
-    private var _binding: FragmentHomeBinding? = null
-    private val binding: FragmentHomeBinding by lazy { _binding!! }
+    private var _binding: FragmentEditPhotoBinding? = null
+    private val binding: FragmentEditPhotoBinding by lazy { _binding!! }
     private lateinit var result: Bitmap
     private var photoFilter: PhotoFilter? = null
 
@@ -63,7 +63,7 @@ class HomeFragment : Fragment(), OnFilterClickListener, OnProcessingCompletionLi
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentHomeBinding.inflate(LayoutInflater.from(context), container, false)
+        _binding = FragmentEditPhotoBinding.inflate(LayoutInflater.from(context), container, false)
         binding.setUpUI()
         return binding.root
     }
@@ -74,14 +74,14 @@ class HomeFragment : Fragment(), OnFilterClickListener, OnProcessingCompletionLi
         }
     }
 
-    private fun FragmentHomeBinding.setUpUI() {
+    private fun FragmentEditPhotoBinding.setUpUI() {
         setPhotoFilter()
         effectsRecyclerView.setEffectsRV()
         setClicks()
     }
 
-    private fun FragmentHomeBinding.setPhotoFilter() {
-        photoFilter = PhotoFilter(effectView, this@HomeFragment)
+    private fun FragmentEditPhotoBinding.setPhotoFilter() {
+        photoFilter = PhotoFilter(effectView, this@EditPhotoFragment)
         ContextCompat.getDrawable(root.context, R.drawable.ic_launcher_background)?.toBitmap()?.let { bitmap ->
             photoFilter?.applyEffect(bitmap, None())
         }
@@ -91,12 +91,12 @@ class HomeFragment : Fragment(), OnFilterClickListener, OnProcessingCompletionLi
         layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         setHasFixedSize(true)
-        adapter = EffectsAdapter(this@HomeFragment).also {
+        adapter = EffectsAdapter(this@EditPhotoFragment).also {
             it.submitList(getItems())
         }
     }
 
-    private fun FragmentHomeBinding.setClicks() {
+    private fun FragmentEditPhotoBinding.setClicks() {
         saveButton.bringToFront()
         saveButton.setOnClickListener {
             checkPermissionAndSaveImage()

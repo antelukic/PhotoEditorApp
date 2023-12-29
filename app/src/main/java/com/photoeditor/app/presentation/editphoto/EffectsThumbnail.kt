@@ -1,4 +1,4 @@
-package com.photoeditor.app.presentation.home
+package com.photoeditor.app.presentation.editphoto
 
 import com.mukesh.imageproccessing.filters.Filter
 

@@ -1,4 +1,4 @@
-package com.photoeditor.app.presentation.home
+package com.photoeditor.app.presentation.editphoto
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
