@@ -47,4 +47,5 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     implementation("com.github.mukeshsolanki:photofilter:2.0.2")
+    implementation("io.insert-koin:koin-android:3.5.3")
 }
