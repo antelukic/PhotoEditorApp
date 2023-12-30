@@ -9,10 +9,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mukesh.imageproccessing.OnProcessingCompletionListener
@@ -41,22 +40,26 @@ import com.mukesh.imageproccessing.filters.Sharpen
 import com.mukesh.imageproccessing.filters.Temperature
 import com.mukesh.imageproccessing.filters.Tint
 import com.mukesh.imageproccessing.filters.Vignette
-import com.photoeditor.app.R
 import com.photoeditor.app.databinding.FragmentEditPhotoBinding
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.util.Date
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class EditPhotoFragment : Fragment(), OnFilterClickListener, OnProcessingCompletionListener {
 
     private var _binding: FragmentEditPhotoBinding? = null
     private val binding: FragmentEditPhotoBinding by lazy { _binding!! }
-    private lateinit var result: Bitmap
+    private var photoForEdit: Bitmap? = null
     private var photoFilter: PhotoFilter? = null
+    private val viewModel by viewModel<EditPhotoViewModel>()
+    private var isFilterSet = false
 
     override fun onProcessingComplete(bitmap: Bitmap) {
-        result = bitmap
+        viewModel.publishEditedImage(bitmap)
     }
 
     override fun onCreateView(
@@ -64,27 +67,41 @@ class EditPhotoFragment : Fragment(), OnFilterClickListener, OnProcessingComplet
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentEditPhotoBinding.inflate(LayoutInflater.from(context), container, false)
-        binding.setUpUI()
+        binding.setUpObservers()
         return binding.root
     }
 
+    private fun FragmentEditPhotoBinding.setUpObservers() {
+        lifecycleScope.launch {
+            viewModel.pickedImage.collectLatest { bitmap: Bitmap? ->
+                bitmap?.let {
+                    photoForEdit = it
+                    setUpUI()
+                }
+            }
+        }
+    }
+
     override fun onFilterClicked(effectsThumbnail: EffectsThumbnail) {
-        ContextCompat.getDrawable(requireContext(), R.drawable.ic_launcher_background)?.toBitmap()?.let { bitmap ->
-            photoFilter?.applyEffect(bitmap, effectsThumbnail.filter)
+        photoForEdit?.let { image ->
+            photoFilter?.applyEffect(image, effectsThumbnail.filter)
         }
     }
 
     private fun FragmentEditPhotoBinding.setUpUI() {
-        setPhotoFilter()
+        if(isFilterSet.not()) setPhotoFilter()
         effectsRecyclerView.setEffectsRV()
         setClicks()
     }
 
+    /**
+     * Has to be called only once. Otherwise crash will occur*/
     private fun FragmentEditPhotoBinding.setPhotoFilter() {
         photoFilter = PhotoFilter(effectView, this@EditPhotoFragment)
-        ContextCompat.getDrawable(root.context, R.drawable.ic_launcher_background)?.toBitmap()?.let { bitmap ->
-            photoFilter?.applyEffect(bitmap, None())
+        photoForEdit?.let { image ->
+            photoFilter?.applyEffect(image, None())
         }
+        isFilterSet = true
     }
 
     private fun RecyclerView.setEffectsRV() {
@@ -138,7 +155,7 @@ class EditPhotoFragment : Fragment(), OnFilterClickListener, OnProcessingComplet
         val fileName = Date().time
         val file = File(path, "$fileName.jpg")
         fOut = FileOutputStream(file)
-        result.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
+        photoForEdit?.compress(Bitmap.CompressFormat.JPEG, 85, fOut)
         fOut.flush()
         fOut.close()
         MediaStore.Images.Media.insertImage(context?.contentResolver, file.absolutePath, file.name, file.name)

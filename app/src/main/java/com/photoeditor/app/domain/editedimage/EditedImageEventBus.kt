@@ -1,4 +1,4 @@
-package com.photoeditor.app.domain.pickedimage
+package com.photoeditor.app.domain.editedimage
 
 import android.graphics.Bitmap
 import kotlinx.coroutines.flow.Flow
@@ -6,11 +6,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.filterNotNull
 
-class PickedImageEventBus : GetPickedImage, PublishPickedImage {
+class EditedImageEventBus : GetEditedImage, PublishEditedImage {
 
     private val imagePublisher = MutableStateFlow<Bitmap?>(null)
 
-    override fun pickedImage(): Flow<Bitmap> = imagePublisher
+    override fun image(): Flow<Bitmap> = imagePublisher
         .asStateFlow()
         .filterNotNull()
 
@@ -18,3 +18,4 @@ class PickedImageEventBus : GetPickedImage, PublishPickedImage {
         imagePublisher.emit(image)
     }
 }
+

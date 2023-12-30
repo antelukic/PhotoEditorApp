@@ -66,7 +66,7 @@ class HomeFragment : Fragment() {
             if (result.resultCode == Activity.RESULT_OK) {
                 if (result.data?.data != null) {
                     result.data?.data?.let { imageUri ->
-                        result?.data?.data.publishImage()
+                        imageUri.publishImage()
                         navigateToEditPhotoScreen()
                     }
                 } else {
