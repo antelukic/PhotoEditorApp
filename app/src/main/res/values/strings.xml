@@ -6,4 +6,5 @@
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
     <string name="welcome_to_photo_editor">Welcome to photo editor</string>
+    <string name="crop">Crop</string>
 </resources>

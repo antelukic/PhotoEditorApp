@@ -1,5 +1,6 @@
 package com.photoeditor.app.presentation.di
 
+import com.photoeditor.app.presentation.cropimage.CropImageViewModel
 import com.photoeditor.app.presentation.editphoto.EditPhotoViewModel
 import com.photoeditor.app.presentation.home.HomeViewModel
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -9,4 +10,5 @@ val presentationModule = module {
 
     viewModel { HomeViewModel(get()) }
     viewModel { EditPhotoViewModel(get(), get(), get()) }
+    viewModel { CropImageViewModel(get()) }
 }

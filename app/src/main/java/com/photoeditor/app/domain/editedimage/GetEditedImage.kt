@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface GetEditedImage {
 
-    fun image(): Flow<Bitmap>
+    fun image(): Flow<Bitmap?>
 }
