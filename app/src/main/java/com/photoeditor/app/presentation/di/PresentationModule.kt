@@ -11,6 +11,6 @@ val presentationModule = module {
 
     viewModel { HomeViewModel(get()) }
     viewModel { AddFilterViewModel(get(), get()) }
-    viewModel { CropImageViewModel(get()) }
-    viewModel { PaintViewModel(get()) }
+    viewModel { CropImageViewModel(get(), get()) }
+    viewModel { PaintViewModel(get(), get()) }
 }

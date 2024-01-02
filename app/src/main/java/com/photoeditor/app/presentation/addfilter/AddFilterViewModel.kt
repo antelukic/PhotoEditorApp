@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.devs.sketchimage.SketchImage
 import com.photoeditor.app.domain.GetImage
-import com.photoeditor.app.domain.editedimage.PublishEditedImage
+import com.photoeditor.app.domain.PublishImage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class AddFilterViewModel(
     getImage: GetImage,
-    private val editedImagePublisher: PublishEditedImage
+    private val publishImage: PublishImage
 ) : ViewModel() {
 
     private val _originalImage = MutableStateFlow<Bitmap?>(null)
@@ -26,7 +26,7 @@ class AddFilterViewModel(
     var selectedTab: Int = SketchImage.ORIGINAL_TO_GRAY
 
     init {
-        getImage.image()
+        getImage()
             .onEach { bitmap ->
                 this._originalImage.emit(bitmap)
             }.launchIn(viewModelScope)
@@ -35,7 +35,7 @@ class AddFilterViewModel(
 
     fun publishFilteredImage(image: Bitmap) {
         viewModelScope.launch {
-            editedImagePublisher.publish(image)
+            publishImage(image)
         }
     }
 }
