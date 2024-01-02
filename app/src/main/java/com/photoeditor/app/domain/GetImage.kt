@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.mapLatest
 
-class GetImageForCrop(
+class GetImage(
     private val getEditedImage: GetEditedImage,
     private val getPickedImage: GetPickedImage,
 ) {

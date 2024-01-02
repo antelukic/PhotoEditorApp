@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import com.photoeditor.app.R
 import com.photoeditor.app.databinding.FragmentHomeBinding
 import com.photoeditor.app.ext.getBitmap
+import com.photoeditor.app.ext.safelyNavigate
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class HomeFragment : Fragment() {
@@ -95,7 +96,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToEditPhotoScreen() {
-        findNavController().navigate(R.id.action_homeFragment_to_editPhotoFragment)
+        findNavController().safelyNavigate(R.id.action_homeFragment_to_editPhotoFragment)
     }
 
     override fun onDestroy() {

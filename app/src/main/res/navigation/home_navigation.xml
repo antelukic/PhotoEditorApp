@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/editPhotoFragment"
-        android:name="com.photoeditor.app.presentation.editphoto.EditPhotoFragment"
+        android:name="com.photoeditor.app.presentation.addfilter.AddFilterFragment"
         android:label="fragment_edit_photo"
-        tools:layout="@layout/fragment_edit_photo">
+        tools:layout="@layout/fragment_add_filter">
         <action
             android:id="@+id/action_editPhotoFragment_to_cropImageFragment"
             app:destination="@id/cropImageFragment" />

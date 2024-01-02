@@ -7,4 +7,16 @@
     <string name="camera">Camera</string>
     <string name="welcome_to_photo_editor">Welcome to photo editor</string>
     <string name="crop">Crop</string>
+    <string name="apply">Apply</string>
+    <string name="filtered_photo">filtered photo</string>
+    <string name="original_to_grey">Original to grey</string>
+    <string name="original_to_colored_sketch">Original to colored</string>
+    <string name="original_to_soft">Original to soft</string>
+    <string name="original_to_soft_color">Original to soft color</string>
+    <string name="gray_to_sketch">Gray to sketch</string>
+    <string name="gray_to_colored_sketch">Gray to colored sketch</string>
+    <string name="gray_to_soft_sketch">Gray to soft sketch</string>
+    <string name="gray_to_soft_color">Gray to soft color</string>
+    <string name="sketch_to_color_sketch">Sketch to color sketch</string>
+    <string name="reset">Reset</string>
 </resources>
