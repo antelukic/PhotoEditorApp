@@ -3,7 +3,9 @@ package com.photoeditor.app.presentation.home
 import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -12,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.photoeditor.app.R
@@ -42,7 +45,9 @@ class HomeFragment : Fragment() {
 
     private fun FragmentHomeBinding.setClicks() {
         btnOpenGallery.setOnClickListener(openGalleryClickListener)
-        btnOpenCamera.setOnClickListener(openCameraClickListener)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            btnOpenCamera.setOnClickListener(openCameraClickListener)
+        }
     }
 
     private val openGalleryClickListener = View.OnClickListener {
@@ -53,6 +58,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val openCameraClickListener = View.OnClickListener {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
@@ -77,12 +83,14 @@ class HomeFragment : Fragment() {
             }
         }
 
+    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val resultCameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val resultCode = result.resultCode
             val data = result.data
             if (resultCode == Activity.RESULT_OK) {
-                data?.data.publishImage()
+                val extraData = data?.extras?.getParcelable("data", Bitmap::class.java)
+                extraData?.let(viewModel::publishPickedImage)
                 navigateToEditPhotoScreen()
             } else {
                 Toast.makeText(requireContext(), "Something went wrong", Toast.LENGTH_LONG).show()
