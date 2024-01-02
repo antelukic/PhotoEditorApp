@@ -96,7 +96,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToEditPhotoScreen() {
-        findNavController().safelyNavigate(R.id.action_homeFragment_to_editPhotoFragment)
+        findNavController().safelyNavigate(R.id.action_homeFragment_to_addFilterFragment)
     }
 
     override fun onDestroy() {

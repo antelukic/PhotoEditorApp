@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/crop_navigation"
+    app:startDestination="@id/cropImageFragment2">
+
+    <fragment
+        android:id="@+id/cropImageFragment2"
+        android:name="com.photoeditor.app.presentation.cropimage.CropImageFragment"
+        android:label="fragment_crop_image"
+        tools:layout="@layout/fragment_crop_image" />
+</navigation>

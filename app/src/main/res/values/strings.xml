@@ -29,4 +29,6 @@
     <string name="blue">Blue</string>
     <string name="green">Green</string>
     <string name="color_preview">Color preview</string>
+    <string name="paint">Paint</string>
+    <string name="home">Home</string>
 </resources>

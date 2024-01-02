@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/filter_navigation"
+        android:icon="@drawable/baseline_home_24"
+        android:title="@string/home" />
+
+    <item
+        android:id="@+id/crop_navigation"
+        android:icon="@drawable/baseline_crop_24"
+        android:title="@string/crop" />
+    <item
+        android:id="@+id/paint_navigation"
+        android:icon="@drawable/baseline_format_paint_24"
+        android:title="@string/paint" />
+</menu>
