@@ -1,5 +1,6 @@
 package com.photoeditor.app.presentation.di
 
+import com.photoeditor.app.MainViewModel
 import com.photoeditor.app.presentation.addfilter.AddFilterViewModel
 import com.photoeditor.app.presentation.cropimage.CropImageViewModel
 import com.photoeditor.app.presentation.home.HomeViewModel
@@ -13,4 +14,5 @@ val presentationModule = module {
     viewModel { AddFilterViewModel(get(), get()) }
     viewModel { CropImageViewModel(get(), get()) }
     viewModel { PaintViewModel(get(), get()) }
+    viewModel { MainViewModel(get(), get()) }
 }

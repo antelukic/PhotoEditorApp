@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/saveAsJpeg"
+        android:title="@string/save_as_jpeg" />
+    <item
+        android:id="@+id/saveAsPng"
+        android:title="@string/save_as_png" />
+</menu>

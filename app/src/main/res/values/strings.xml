@@ -31,4 +31,7 @@
     <string name="color_preview">Color preview</string>
     <string name="paint">Paint</string>
     <string name="home">Home</string>
+    <string name="save_as_jpg">Save as JPG</string>
+    <string name="save_as_jpeg">Save as JPEG</string>
+    <string name="save_as_png">Save as PNG</string>
 </resources>
