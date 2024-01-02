@@ -48,6 +48,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("com.github.devsideal:SketchImage:1.0.1")
+    implementation("com.github.PicnicSupermarket:FingerPaintView:1.2")
     implementation("com.github.avito-tech:krop:0.64")
     implementation("io.insert-koin:koin-android:3.5.3")
 }

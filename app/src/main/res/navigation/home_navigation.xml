@@ -26,10 +26,18 @@
         <action
             android:id="@+id/action_homeFragment_to_cropImageFragment"
             app:destination="@id/cropImageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_paintFragment"
+            app:destination="@id/paintFragment" />
     </fragment>
     <fragment
         android:id="@+id/cropImageFragment"
         android:name="com.photoeditor.app.presentation.cropimage.CropImageFragment"
         android:label="fragment_crop_image"
         tools:layout="@layout/fragment_crop_image" />
+    <fragment
+        android:id="@+id/paintFragment"
+        android:name="com.photoeditor.app.presentation.paintimage.PaintFragment"
+        android:label="fragment_paint"
+        tools:layout="@layout/fragment_paint" />
 </navigation>

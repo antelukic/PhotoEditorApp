@@ -19,4 +19,14 @@
     <string name="gray_to_soft_color">Gray to soft color</string>
     <string name="sketch_to_color_sketch">Sketch to color sketch</string>
     <string name="reset">Reset</string>
+    <string name="clear">CLEAR</string>
+    <string name="undo">UNDO</string>
+    <string name="blur">Blur</string>
+    <string name="emboss">Emboss</string>
+    <string name="normal">Normal</string>
+    <string name="width">Width</string>
+    <string name="tolerance">Tolerance</string>
+    <string name="blue">Blue</string>
+    <string name="green">Green</string>
+    <string name="color_preview">Color preview</string>
 </resources>
