@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -52,4 +53,6 @@ dependencies {
     implementation("com.github.PicnicSupermarket:FingerPaintView:1.2")
     implementation("com.github.avito-tech:krop:0.64")
     implementation("io.insert-koin:koin-android:3.5.3")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
+    implementation("com.google.firebase:firebase-analytics")
 }
