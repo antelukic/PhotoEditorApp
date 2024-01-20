@@ -6,6 +6,8 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -83,13 +85,16 @@ class HomeFragment : Fragment() {
             }
         }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val resultCameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val resultCode = result.resultCode
             val data = result.data
             if (resultCode == Activity.RESULT_OK) {
-                val extraData = data?.extras?.getParcelable("data", Bitmap::class.java)
+                val extraData = if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                    data?.extras?.getParcelable("data", Bitmap::class.java)
+                } else {
+                    data?.extras?.get("data") as? Bitmap
+                }
                 extraData?.let(viewModel::publishPickedImage)
                 navigateToEditPhotoScreen()
             } else {
