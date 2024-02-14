@@ -45,6 +45,7 @@ class AddFilterFragment : Fragment() {
     private val onSliderValueChangeListener = Slider.OnChangeListener { _, value, _ ->
         lifecycleScope.launch {
             val sliderValue = (value * 100).toInt()
+            if (sketchImage == null) return@launch
             tabEditedImage = sketchImage?.getImageAs(viewModel.selectedTab, sliderValue)
             viewModel.filteredImage.emit(tabEditedImage)
             viewModel.tabProgress.remove(viewModel.selectedTab)
