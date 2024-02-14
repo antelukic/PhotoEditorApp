@@ -1,11 +1,13 @@
 package com.photoeditor.app.presentation.home
 
-import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
+import android.os.Build.VERSION
+import android.os.Build.VERSION_CODES
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -22,6 +24,7 @@ import com.photoeditor.app.databinding.FragmentHomeBinding
 import com.photoeditor.app.ext.getBitmap
 import com.photoeditor.app.ext.safelyNavigate
 import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 class HomeFragment : Fragment() {
 
@@ -45,9 +48,7 @@ class HomeFragment : Fragment() {
 
     private fun FragmentHomeBinding.setClicks() {
         btnOpenGallery.setOnClickListener(openGalleryClickListener)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            btnOpenCamera.setOnClickListener(openCameraClickListener)
-        }
+        btnOpenCamera.setOnClickListener(openCameraClickListener)
     }
 
     private val openGalleryClickListener = View.OnClickListener {
@@ -58,19 +59,34 @@ class HomeFragment : Fragment() {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val openCameraClickListener = View.OnClickListener {
         val takePictureIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         try {
-            resultCameraLauncher.launch(takePictureIntent)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                resultCameraLauncher.launch(takePictureIntent)
+            } else {
+                if (takePictureIntent.resolveActivity(requireActivity().packageManager) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
+
         } catch (e: ActivityNotFoundException) {
             Log.e(TAG, "takePicture: ERROR ${e.message}")
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            val extraData = data?.extras?.get("data") as? Bitmap
+            extraData?.let(viewModel::publishPickedImage)
+            navigateToEditPhotoScreen()
+        }
+    }
+
     private val resultGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == Activity.RESULT_OK) {
+            if (result.resultCode == RESULT_OK) {
                 if (result.data?.data != null) {
                     result.data?.data?.let { imageUri ->
                         imageUri.publishImage()
@@ -83,13 +99,16 @@ class HomeFragment : Fragment() {
             }
         }
 
-    @RequiresApi(Build.VERSION_CODES.TIRAMISU)
     private val resultCameraLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             val resultCode = result.resultCode
             val data = result.data
-            if (resultCode == Activity.RESULT_OK) {
-                val extraData = data?.extras?.getParcelable("data", Bitmap::class.java)
+            if (resultCode == RESULT_OK) {
+                val extraData = if (VERSION.SDK_INT >= VERSION_CODES.TIRAMISU) {
+                    data?.extras?.getParcelable("data", Bitmap::class.java)
+                } else {
+                    data?.extras?.get("data") as? Bitmap
+                }
                 extraData?.let(viewModel::publishPickedImage)
                 navigateToEditPhotoScreen()
             } else {
@@ -115,5 +134,6 @@ class HomeFragment : Fragment() {
     companion object {
         private const val TAG = "HomeFragment"
         private const val GALLERY_INTENT_TYPE = "image/*"
+        private const val REQUEST_IMAGE_CAPTURE = 100
     }
 }
